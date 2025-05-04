@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Success!</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .message-box {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+      }
+      h1 {
+        color: #6a11cb;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 1.2em;
+        color: #333;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+        background: #2575fc;
+        padding: 12px 30px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 20px;
+        font-size: 1.1em;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+      a:hover {
+        background: #6a11cb;
+        transform: scale(1.05);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .message-box {
+          padding: 20px;
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="message-box">
+      <h1>Pet Submitted Successfully!</h1>
+      <p>We’ll review your listing shortly.</p>
+      <a href="{% url 'buy_pets' %}">View Pets for Sale</a>
+    </div>
+  </body>
+</html>

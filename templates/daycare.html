@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Daycare | El Petrio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(to right, #e0f7fa, #ffe0f7);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        padding-bottom: 60px;
+      }
+      /* Header and Navbar Styles */
+      .header {
+        background-color: #f248c7;
+        color: #ffffff;
+        padding: 40px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+      .navigation {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .navigation a {
+        color: #ffffff;
+        margin: 0 15px;
+        font-size: 18px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .navigation a:hover {
+        color: #53b94a;
+      }
+      .welcome-message {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      h2 {
+        text-align: center;
+        font-weight: bold;
+        color: #5e35b1;
+      }
+
+      .alert {
+        background-color: #fce4ec;
+        color: #c2185b;
+        font-weight: bold;
+      }
+
+      .form-section {
+        margin-top: 30px;
+        background: #ffffff;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .btn-animated {
+        background: linear-gradient(45deg, #ff6ec4, #7873f5);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        border-radius: 50px;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 20px rgba(255, 110, 196, 0.4);
+      }
+
+      .btn-animated:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 6px 30px rgba(120, 115, 245, 0.5);
+      }
+
+      .btn-secondary {
+        background: #ffab91;
+        border-radius: 50px;
+        font-weight: bold;
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+      }
+
+      .btn-secondary:hover {
+        background: #ff7043;
+        transform: scale(1.05);
+      }
+      .footer {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: #ffffff;
+        padding: 20px 0;
+        text-align: center;
+        width: 100%;
+        margin-top: 40px;
+      }
+      .footer p {
+        margin-bottom: 0;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="container mt-5">
+      <h2 class="text-center text-primary mb-4">Pet Daycare Request Form</h2>
+
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+      {% endfor %} {% endif %}
+
+      <div class="form-section">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">{{ form.as_p }}</div>
+          <button type="submit" class="btn-animated btn-block">
+            Submit Request
+          </button>
+        </form>
+      </div>
+
+      <div class="mt-4 text-center">
+        <a href="{% url 'home' %}" class="btn btn-secondary"> Back to Home </a>
+      </div>
+      <footer class="footer">
+        <div class="container">
+          <p>&copy; 2025 El Petrio. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

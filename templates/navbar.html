@@ -1,0 +1,21 @@
+<!-- navbar.html -->
+<div class="header">
+  <h1>Welcome to El Petrio</h1>
+  {% if user.is_authenticated %}
+  <div class="welcome-message">Welcome, {{ user.username }}!</div>
+  {% endif %}
+</div>
+
+<nav class="navigation">
+  <a href="{% url 'home' %}">Home</a>
+  <a href="{% url 'daycare' %}">Pet Daycare</a>
+  <a href="{% url 'approved_daycare_requests' %}">Approved Daycare</a>
+  <a href="{% url 'buy_pets' %}">Buy Pet</a>
+  <a href="{% url 'adoption' %}">Adopt Pet</a>
+  {% if user.is_authenticated %}
+  <a href="{% url 'user_profile' %}">Profile</a>
+  <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+  {% endif %}
+</nav>

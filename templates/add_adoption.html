@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>List Your Pet for Adoption</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      /* Header and Navbar Styles */
+      .header {
+        background-color: #f248c7;
+        color: #ffffff;
+        padding: 40px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+      .navigation {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .navigation a {
+        color: #ffffff;
+        margin: 0 15px;
+        font-size: 18px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .navigation a:hover {
+        color: #53b94a;
+      }
+      .welcome-message {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      .container {
+        max-width: 600px;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      h2 {
+        text-align: center;
+        color: #00796b;
+        margin-bottom: 30px;
+      }
+
+      label {
+        font-weight: 600;
+      }
+
+      .form-control {
+        border-radius: 10px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #00796b;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-submit:hover {
+        background-color: #004d40;
+      }
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="container">
+      <h2>List Your Pet for Adoption</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_name">Pet Name</label>
+          {{ form.name }}
+        </div>
+        <div class="form-group">
+          <label for="id_age">Age</label>
+          {{ form.age }}
+        </div>
+        <div class="form-group">
+          <label for="id_breed">Breed</label>
+          {{ form.breed }}
+        </div>
+        <div class="form-group">
+          <label for="id_identifying_marks">Identifying Marks</label>
+          {{ form.identifying_marks }}
+        </div>
+        <div class="form-group">
+          <label for="id_image">Pet Image</label>
+          {{ form.image }}
+        </div>
+        <button type="submit" class="btn-submit">Submit for Adoption</button>
+      </form>
+    </div>
+  </body>
+</html>
