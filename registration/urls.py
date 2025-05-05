@@ -15,14 +15,17 @@ urlpatterns = [
     path('logout/', views.logoutpage, name='logout'),
     
     # Pet-related paths
-   
+    path('add-pet/', views.add_pet, name='add_pet'),
+    path('buy/', views.buy_pets, name='buy_pets'),
+    path('success/', views.pet_success, name='pet_success'),
+    path('payment/<int:pet_id>/', views.payment_view, name='payment'),
     path('adoption/', views.adoption, name='adoption'),
- 
     path('daycare/', views.daycare_view, name='daycare'),
     path('approved-daycare-requests/', views.approved_daycare_requests, name='approved_daycare_requests'),
     path('add_adoption/', views.add_adoption_pet, name='add_adoption'),
     path('adoption/<int:pet_id>/', views.apply_adoption, name='adoption'),
-
+    path('accept-daycare-request/<int:id>/', views.accept_daycare_request, name='accept_daycare_request'),
+    path('profile/', views.user_profile, name='user_profile'),
     
 ]
 

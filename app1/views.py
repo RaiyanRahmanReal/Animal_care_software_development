@@ -27,7 +27,7 @@ from .models import DaycareRequest
 def homepage(request):
   
     pets = Petadd.objects.filter(is_approved=True, sold=False)
-    # form = PetForm()
+    form = PetForm()
     
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)
@@ -81,7 +81,72 @@ def logoutpage(request):
     return redirect('login')
 
 
+@login_required
+def add_pet(request):
+    if request.method == 'POST':
+        form = PetForm(request.POST, request.FILES)
+        if form.is_valid():
+            pet = form.save(commit=False)
+            pet.owner = request.user  
+            pet.save()
+            return redirect('pet_success')  
+    else:
+        form = PetForm()  
 
+    return render(request, 'add_pet.html', {'form': form})  
+
+
+def buy_pets(request):
+    pets = Petadd.objects.filter(is_approved=True, sold=False, is_for_adoption=False).exclude(owner=request.user)
+    
+    # Handle purchase action
+    if request.method == "POST":
+        pet_id = request.POST.get('pet_id')  # Get the pet ID from the form
+        pet = get_object_or_404(Petadd, id=pet_id)
+        
+        if not pet.sold:  # Ensure the pet is still available for buying
+            pet.sold = True  # Mark the pet as sold
+            pet.buyer = request.user  # Set the buyer to the logged-in user
+            pet.save()  # Save the changes
+            
+            # You could add a success message here if needed, or redirect
+            return redirect('user_profile')  # Redirect the user to their profile page
+    
+    return render(request, 'buy_pets.html', {'pets': pets })
+
+
+def pet_success(request):
+    return render(request, 'pet_success.html')  
+
+
+
+def payment_view(request, pet_id):
+    pet = get_object_or_404(Petadd, id=pet_id)
+
+    # Prevent the owner from buying their own pet
+    if pet.owner == request.user:
+        messages.error(request, "You cannot purchase your own pet.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            # Assign the current user as the buyer
+            pet.sold = True
+            pet.buyer = request.user
+            pet.save()
+
+            # Redirect to a payment success page
+            return render(request, 'payment_successful.html', {
+                'pet': pet,
+                'message': "Your payment is done. You will receive your pet delivery details soon."
+            })
+        else:
+            messages.error(request, "There was an issue with your payment details. Please try again.")
+    else:
+        form = PaymentForm()
+
+    return render(request, 'payment.html', {'form': form, 'pet': pet})
 
 
 
@@ -122,20 +187,21 @@ def apply_adoption(request, pet_id):
 def adoption(request):
     adoption_pets = Petadd.objects.filter(is_approved=True, sold=False, is_for_adoption=True).exclude(owner=request.user)
     
-    
+    # Handle adoption action
     if request.method == "POST":
-        pet_id = request.POST.get('pet_id')  
+        pet_id = request.POST.get('pet_id')  # Get the pet ID from the form
         pet = get_object_or_404(Petadd, id=pet_id)
         
-        if not pet.sold:  
-            pet.sold = True  
-            pet.adopter = request.user 
+        if not pet.sold:  # Ensure the pet is still available for adoption
+            pet.sold = True  # Mark the pet as adopted (sold)
+            pet.adopter = request.user  # Set the adopter to the logged-in user
             pet.save()  # Save the changes
             
-            
-            return redirect('user_profile')  
+            # You could add a success message here if needed, or redirect
+            return redirect('user_profile')  # Redirect the user to their profile page
     
     return render(request, 'adoption.html', {'pets': adoption_pets})
+
 
 
 
@@ -179,9 +245,6 @@ def accept_daycare_request(request, id):
         daycare_request.save()
     
     return render(request, 'daycare_request_accepted.html', {'request': daycare_request})
-
-
-
 
 
 @login_required

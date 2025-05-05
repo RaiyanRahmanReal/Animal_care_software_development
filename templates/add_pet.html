@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add a Pet</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header and Navbar Styles */
+      .header {
+        background-color: #f248c7;
+        color: #ffffff;
+        padding: 40px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      .navigation {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .navigation a {
+        color: #ffffff;
+        margin: 0 15px;
+        font-size: 18px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .navigation a:hover {
+        color: #53b94a;
+      }
+
+      .welcome-message {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 60px 20px;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+
+      .container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        color: #4a00e0;
+        margin-bottom: 30px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #6a11cb;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out, transform 0.2s;
+      }
+
+      button:hover {
+        background: #2575fc;
+        transform: scale(1.05);
+      }
+
+      .form-section {
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+
+    <div class="main-container">
+      <div class="container">
+        <h1>Add Your Pet</h1>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form-section">
+            <label for="name">Pet Name:</label>
+            {{ form.name }}
+          </div>
+
+          <div class="form-section">
+            <label for="age">Age:</label>
+            {{ form.age }}
+          </div>
+
+          <div class="form-section">
+            <label for="breed">Breed:</label>
+            {{ form.breed }}
+          </div>
+
+          <div class="form-section">
+            <label for="identifying_marks">Identifying Marks:</label>
+            {{ form.identifying_marks }}
+          </div>
+
+          <div class="form-section">
+            <label for="price">Price:</label>
+            {{ form.price }}
+          </div>
+
+          <div class="form-section">
+            <label for="image">Pet Image:</label>
+            {{ form.image }}
+          </div>
+
+          <button type="submit">Submit Pet</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

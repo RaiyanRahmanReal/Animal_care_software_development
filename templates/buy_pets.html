@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buy a Pet</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(to right, #e0f7fa, #ffe0f7);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding-bottom: 60px;
+      }
+      /* Header and Navbar Styles */
+      .header {
+        background-color: #f248c7;
+        color: #ffffff;
+        padding: 40px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+      .navigation {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+      .navigation a {
+        color: #ffffff;
+        margin: 0 15px;
+        font-size: 18px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .navigation a:hover {
+        color: #53b94a;
+      }
+      .welcome-message {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      h1 {
+        text-align: center;
+        font-weight: bold;
+        color: #e1dee6;
+        margin-top: 30px;
+      }
+
+      .grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        width: 250px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+      }
+
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .info {
+        margin-top: 10px;
+      }
+
+      .info h3 {
+        margin: 0;
+        color: #4a00e0;
+        font-size: 1.2em;
+      }
+
+      .info p {
+        margin: 5px 0;
+        font-size: 1em;
+      }
+
+      .buy-btn {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 12px 25px;
+        background: linear-gradient(45deg, #ff6ec4, #7873f5);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 20px rgba(255, 110, 196, 0.4);
+      }
+
+      .buy-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        background: linear-gradient(45deg, #7873f5, #ff6ec4);
+        box-shadow: 0 6px 30px rgba(120, 115, 245, 0.5);
+      }
+
+      .footer {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        width: 100%;
+        margin-top: 40px;
+      }
+
+      .footer p {
+        margin-bottom: 0;
+      }
+      .form-section {
+        background-color: #e9f5ff;
+        padding: 30px;
+        margin-top: 20px;
+        border-radius: 15px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .card {
+          width: 100%;
+          max-width: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="form-section">
+      <h3 class="mb-4">
+        <a href="{% url 'add_pet' %}">
+          <button class="btn btn-primary btn-animated">Upload Your Pet</button>
+        </a>
+      </h3>
+    </div>
+    <p class="text-center">Total pets: {{ pets|length }}</p>
+
+    <h1>Available Pets for Buy</h1>
+    <div class="grid">
+      {% for pet in pets %}
+      <div class="card">
+        <img src="{{ pet.image.url }}" alt="Pet image" />
+        <div class="info">
+          <h3>{{ pet.name }}</h3>
+          <p><strong>Age:</strong> {{ pet.age }} years</p>
+          <p><strong>Breed:</strong> {{ pet.breed }}</p>
+          <p>{{ pet.identifying_marks }}</p>
+          <p><strong>Price:</strong> ${{ pet.price }}</p>
+        </div>
+
+        {% if pet.owner == user %}
+        <p class="text-muted">You cannot purchase your own pet.</p>
+        {% else %}
+        <!-- Purchase Button wrapped in form to include pet_id -->
+        <form action="{% url 'payment' pet.id %}" method="POST">
+          {% csrf_token %}
+          <!-- Hidden input field to pass pet_id to the payment view -->
+          <input type="hidden" name="pet_id" value="{{ pet.id }}" />
+          <button type="submit" class="buy-btn">Buy Now</button>
+        </form>
+        {% endif %}
+      </div>
+      {% empty %}
+      <p class="text-muted text-center">No pets available at the moment.</p>
+      {% endfor %}
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 El Petrio. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
